@@ -1,5 +1,27 @@
-class RecipeApp {
+data class Recipe(
+    val recipeName: String,
+    val portionInPeople: Int,
+    val ingredients: List<Ingredient>,
+    val desc: String
+)
 
+
+data class Ingredient(
+    val name: String,
+    val total: Int,
+    val unit: IngredientUnit
+)
+
+enum class IngredientUnit {
+    tsp, tbs, ml, gram, pcs
+}
+
+fun Recipe.ingredientToString(): String {
+    return this.ingredients.joinToString("\n") { "${it.name} : ${it.total} ${it.unit}" }
+}
+
+
+class App() {
     private var recipeList: MutableList<Recipe>? = null
 
     fun initRecipe() {
@@ -31,7 +53,6 @@ class RecipeApp {
             )
         }
     }
-
     fun printRecipe() {
         if (recipeList == null) {
             println("Recipe is Empty")
@@ -53,32 +74,10 @@ class RecipeApp {
             println()
         }
     }
-
 }
 
-data class Recipe(
-    val recipeName: String,
-    val portionInPeople: Int,
-    val ingredients: List<Ingredient>,
-    val desc: String
-)
-
-fun Recipe.ingredientToString(): String {
-    return this.ingredients.joinToString("\n") { "${it.name} : ${it.total} ${it.unit}" }
-}
-
-data class Ingredient(
-    val name: String,
-    val total: Int,
-    val unit: IngredientUnit
-)
-
-enum class IngredientUnit {
-    tsp, tbs, ml, gram, pcs
-}
-
-fun main() {
-    val recipe = RecipeApp()
-    recipe.initRecipe()
-    recipe.printRecipe()
+fun main(args: Array<String>) {
+    val app = App()
+    app.initRecipe()
+    app.printRecipe()
 }
